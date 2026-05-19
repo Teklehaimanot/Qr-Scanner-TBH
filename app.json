@@ -45,14 +45,7 @@
       "eas": {
         "projectId": "ad8bf673-eb89-4cd1-b71f-04a3c3485ba9"
       },
-      "dhis": {
-        "EXPO_PUBLIC_DHIS_BASE": "",
-        "EXPO_PUBLIC_DHIS_TOKEN": "",
-        "EXPO_PUBLIC_DHIS_PROGRAM_UID": "",
-        "EXPO_PUBLIC_DHIS_PROGRAM_STAGE_UID": "",
-        "EXPO_PUBLIC_DHIS_ORG_UNIT_UID": "",
-        "EXPO_PUBLIC_DHIS_QR_SCAN_STATUS_DE_UID": ""
-      }
+      "dhis": {}
     },
     "runtimeVersion": {
       "policy": "appVersion"

@@ -2,8 +2,9 @@ import Constants from "expo-constants";
 
 const extra = Constants.expoConfig?.extra?.dhis ?? {};
 
+// extra.dhis is set in app.config.js at build time (EAS / local)
 const env = (key, fallback = "") =>
-  process.env[key] ?? extra[key] ?? fallback;
+  extra[key] ?? process.env[key] ?? fallback;
 
 export const DHIS_BASE = env("EXPO_PUBLIC_DHIS_BASE", "");
 export const DHIS_TOKEN = env("EXPO_PUBLIC_DHIS_TOKEN", "");

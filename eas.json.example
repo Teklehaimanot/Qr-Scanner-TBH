@@ -1,0 +1,45 @@
+{
+  "cli": {
+    "version": ">= 14.4.1",
+    "appVersionSource": "remote"
+  },
+  "build": {
+    "development": {
+      "developmentClient": true,
+      "distribution": "internal",
+      "env": {
+        "EXPO_PUBLIC_DHIS_BASE": "https://your-dhis2-server.org/api",
+        "EXPO_PUBLIC_DHIS_PROGRAM_UID": "your-program-id",
+        "EXPO_PUBLIC_DHIS_PROGRAM_STAGE_UID": "your-program-stage-id",
+        "EXPO_PUBLIC_DHIS_ORG_UNIT_UID": "your-org-unit-id",
+        "EXPO_PUBLIC_DHIS_QR_SCAN_STATUS_DE_UID": "your-qr-scan-status-data-element-id"
+      }
+    },
+    "preview": {
+      "distribution": "internal",
+      "android": {
+        "buildType": "apk"
+      },
+      "env": {
+        "EXPO_PUBLIC_DHIS_BASE": "https://your-dhis2-server.org/api",
+        "EXPO_PUBLIC_DHIS_PROGRAM_UID": "your-program-id",
+        "EXPO_PUBLIC_DHIS_PROGRAM_STAGE_UID": "your-program-stage-id",
+        "EXPO_PUBLIC_DHIS_ORG_UNIT_UID": "your-org-unit-id",
+        "EXPO_PUBLIC_DHIS_QR_SCAN_STATUS_DE_UID": "your-qr-scan-status-data-element-id"
+      }
+    },
+    "production": {
+      "autoIncrement": true,
+      "env": {
+        "EXPO_PUBLIC_DHIS_BASE": "https://your-dhis2-server.org/api",
+        "EXPO_PUBLIC_DHIS_PROGRAM_UID": "your-program-id",
+        "EXPO_PUBLIC_DHIS_PROGRAM_STAGE_UID": "your-program-stage-id",
+        "EXPO_PUBLIC_DHIS_ORG_UNIT_UID": "your-org-unit-id",
+        "EXPO_PUBLIC_DHIS_QR_SCAN_STATUS_DE_UID": "your-qr-scan-status-data-element-id"
+      }
+    }
+  },
+  "submit": {
+    "production": {}
+  }
+}
