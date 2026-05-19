@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "qr-scanner",
+    "name": "TBH QR Scanner",
     "slug": "qr-scanner",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -10,20 +10,55 @@
     "splash": {
       "image": "./assets/splash-icon.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#065E6A"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.teklehaimanot.qrscanner"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#065E6A"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "package": "com.teklehaimanot.qrscanner",
+      "permissions": [
+        "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO",
+        "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Allow $(PRODUCT_NAME) to access your camera for QR scanning."
+        }
+      ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "ad8bf673-eb89-4cd1-b71f-04a3c3485ba9"
+      },
+      "dhis": {
+        "EXPO_PUBLIC_DHIS_BASE": "",
+        "EXPO_PUBLIC_DHIS_TOKEN": "",
+        "EXPO_PUBLIC_DHIS_PROGRAM_UID": "",
+        "EXPO_PUBLIC_DHIS_PROGRAM_STAGE_UID": "",
+        "EXPO_PUBLIC_DHIS_ORG_UNIT_UID": "",
+        "EXPO_PUBLIC_DHIS_QR_SCAN_STATUS_DE_UID": ""
+      }
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/ad8bf673-eb89-4cd1-b71f-04a3c3485ba9"
     }
   }
 }
