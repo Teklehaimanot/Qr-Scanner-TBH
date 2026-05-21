@@ -12,7 +12,9 @@ import { CameraView, Camera } from "expo-camera";
 import {
   markTravelerScanned,
   getDhisErrorMessage,
+  parseQrToken,
 } from "../services/tracker";
+import { getDhisEnrollmentEventUrl } from "../config/dhis";
 
 const BRAND = "#065E6A";
 const FRAME_SIZE = 260;
@@ -81,10 +83,14 @@ function QrScanner() {
         ? data.classification.toUpperCase()
         : "UNKNOWN";
 
+      const { teiId, eventId } = parseQrToken(data.token);
+
       setTravelerInfo({
         firstName: data.firstName,
         lastName: data.lastName,
         middleName: data.middleName,
+        teiId,
+        eventId,
       });
 
       if (["RED", "YELLOW", "GREEN"].includes(classification)) {
@@ -215,6 +221,28 @@ function ResultScreen({ scanResult, travelerInfo, onScanAgain }) {
     : null;
 
   const showSynced = scanResult !== "ERROR";
+  const captureUrl = travelerInfo?.eventId
+    ? getDhisEnrollmentEventUrl(travelerInfo.eventId)
+    : null;
+
+  const openDhisCapture = async () => {
+    if (!captureUrl) {
+      Alert.alert(
+        "Unable to open",
+        "DHIS2 event link is not available for this scan."
+      );
+      return;
+    }
+
+    try {
+      await Linking.openURL(captureUrl);
+    } catch {
+      Alert.alert(
+        "Unable to open",
+        "Could not open DHIS2 in the browser. Check your connection."
+      );
+    }
+  };
 
   return (
     <View
@@ -249,6 +277,19 @@ function ResultScreen({ scanResult, travelerInfo, onScanAgain }) {
           </View>
         ) : null}
       </View>
+
+      {showSynced && captureUrl ? (
+        <Pressable
+          style={({ pressed }) => [
+            styles.dhisLinkButton,
+            pressed && styles.buttonPressed,
+          ]}
+          onPress={openDhisCapture}
+        >
+          <Text style={styles.dhisLinkButtonText}>Open event in DHIS2</Text>
+          <Text style={styles.dhisLinkButtonHint}>Enrollment event in Capture</Text>
+        </Pressable>
+      ) : null}
 
       <Pressable
         style={({ pressed }) => [
@@ -507,7 +548,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   scanAgainButton: {
-    marginTop: 28,
+    marginTop: 14,
     backgroundColor: "#fff",
     borderRadius: 12,
     paddingVertical: 16,
@@ -524,6 +565,30 @@ const styles = StyleSheet.create({
     color: BRAND,
     fontSize: 17,
     fontWeight: "700",
+  },
+  dhisLinkButton: {
+    marginTop: 28,
+    backgroundColor: BRAND,
+    borderRadius: 12,
+    paddingVertical: 16,
+    paddingHorizontal: 32,
+    minWidth: 240,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.15,
+    shadowRadius: 6,
+    elevation: 3,
+  },
+  dhisLinkButtonText: {
+    color: "#fff",
+    fontSize: 17,
+    fontWeight: "700",
+  },
+  dhisLinkButtonHint: {
+    color: "rgba(255,255,255,0.85)",
+    fontSize: 12,
+    marginTop: 4,
   },
   buttonPressed: {
     opacity: 0.9,
