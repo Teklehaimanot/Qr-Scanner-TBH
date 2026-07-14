@@ -89,6 +89,7 @@ function QrScanner() {
         firstName: data.firstName,
         lastName: data.lastName,
         middleName: data.middleName,
+        arrivalDate: data.arrivalDate || null,
         teiId,
         eventId,
       });
@@ -274,6 +275,19 @@ function ResultScreen({ scanResult, travelerInfo, onScanAgain }) {
           <View style={styles.travelerCard}>
             <Text style={styles.travelerLabel}>Traveler</Text>
             <Text style={styles.travelerName}>{travelerName}</Text>
+            {travelerInfo?.arrivalDate ? (
+              <>
+                <Text style={[styles.travelerLabel, styles.arrivalLabel]}>
+                  Arrival date
+                </Text>
+                <Text style={styles.arrivalDate}>{travelerInfo.arrivalDate}</Text>
+              </>
+            ) : null}
+          </View>
+        ) : travelerInfo?.arrivalDate ? (
+          <View style={styles.travelerCard}>
+            <Text style={styles.travelerLabel}>Arrival date</Text>
+            <Text style={styles.arrivalDate}>{travelerInfo.arrivalDate}</Text>
           </View>
         ) : null}
       </View>
@@ -543,6 +557,15 @@ const styles = StyleSheet.create({
   },
   travelerName: {
     fontSize: 18,
+    fontWeight: "600",
+    color: "#222",
+    textAlign: "center",
+  },
+  arrivalLabel: {
+    marginTop: 12,
+  },
+  arrivalDate: {
+    fontSize: 16,
     fontWeight: "600",
     color: "#222",
     textAlign: "center",
