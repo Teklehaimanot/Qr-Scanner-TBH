@@ -18,6 +18,24 @@ import { getDhisEnrollmentEventUrl } from "../config/dhis";
 
 const BRAND = "#065E6A";
 const FRAME_SIZE = 260;
+const ARRIVAL_WARNING_BG = "#C5221F";
+
+function toLocalIsoDate(date) {
+  const y = date.getFullYear();
+  const m = String(date.getMonth() + 1).padStart(2, "0");
+  const d = String(date.getDate()).padStart(2, "0");
+  return `${y}-${m}-${d}`;
+}
+
+/** Arrival today or yesterday is OK; older than 1 day is too old. */
+function isArrivalDateTooOld(arrivalDate) {
+  if (!arrivalDate) return false;
+  const arrival = String(arrivalDate).slice(0, 10);
+  const yesterday = new Date();
+  yesterday.setHours(0, 0, 0, 0);
+  yesterday.setDate(yesterday.getDate() - 1);
+  return arrival < toLocalIsoDate(yesterday);
+}
 
 const STATUS_CONFIG = {
   RED: {
@@ -221,7 +239,10 @@ function ResultScreen({ scanResult, travelerInfo, onScanAgain }) {
         .join(" ")
     : null;
 
-  const showSynced = scanResult !== "ERROR";
+  const arrivalTooOld =
+    scanResult !== "ERROR" && isArrivalDateTooOld(travelerInfo?.arrivalDate);
+
+  const showSynced = scanResult !== "ERROR" && !arrivalTooOld;
   const captureUrl = travelerInfo?.eventId
     ? getDhisEnrollmentEventUrl(travelerInfo.eventId)
     : null;
@@ -244,6 +265,49 @@ function ResultScreen({ scanResult, travelerInfo, onScanAgain }) {
       );
     }
   };
+
+  if (arrivalTooOld) {
+    return (
+      <View
+        style={[styles.resultScreen, { backgroundColor: ARRIVAL_WARNING_BG }]}
+      >
+        <View style={styles.resultCard}>
+          <View style={[styles.statusBadge, styles.statusBadgeMuted]}>
+            <Text style={styles.statusBadgeText}>EXPIRED</Text>
+          </View>
+
+          <Text style={styles.resultTitle}>Arrival date has passed</Text>
+          <Text style={styles.resultSubtitle}>
+            This declaration is more than 1 day past the arrival date and is no
+            longer valid for screening.
+          </Text>
+
+          <View style={styles.travelerCard}>
+            <Text style={styles.travelerLabel}>Arrival date</Text>
+            <Text style={styles.arrivalDate}>{travelerInfo.arrivalDate}</Text>
+            {travelerName ? (
+              <>
+                <Text style={[styles.travelerLabel, styles.arrivalLabel]}>
+                  Traveler
+                </Text>
+                <Text style={styles.travelerName}>{travelerName}</Text>
+              </>
+            ) : null}
+          </View>
+        </View>
+
+        <Pressable
+          style={({ pressed }) => [
+            styles.scanAgainButton,
+            pressed && styles.buttonPressed,
+          ]}
+          onPress={onScanAgain}
+        >
+          <Text style={styles.scanAgainButtonText}>Scan again</Text>
+        </Pressable>
+      </View>
+    );
+  }
 
   return (
     <View
