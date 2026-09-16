@@ -10,9 +10,8 @@ import {
 } from "react-native";
 import { CameraView, Camera } from "expo-camera";
 import {
-  markTravelerScanned,
-  getDhisErrorMessage,
-  parseQrToken,
+  getScanErrorMessage,
+  scanTravelerQr,
 } from "../services/tracker";
 import { getDhisEnrollmentEventUrl } from "../config/dhis";
 
@@ -86,30 +85,19 @@ function QrScanner() {
     setLoading(true);
     setTravelerInfo(null);
 
-    let data;
-
     try {
-      data = JSON.parse(result.data);
-
-      if (!data.token) {
-        throw new Error("QR code is missing token.");
-      }
-
-      await markTravelerScanned(data);
-
+      const data = await scanTravelerQr(result.data);
       const classification = data.classification
-        ? data.classification.toUpperCase()
+        ? String(data.classification).toUpperCase()
         : "UNKNOWN";
-
-      const { teiId, eventId } = parseQrToken(data.token);
 
       setTravelerInfo({
         firstName: data.firstName,
         lastName: data.lastName,
         middleName: data.middleName,
         arrivalDate: data.arrivalDate || null,
-        teiId,
-        eventId,
+        teiId: data.teiId,
+        eventId: data.eventId,
       });
 
       if (["RED", "YELLOW", "GREEN"].includes(classification)) {
@@ -118,14 +106,7 @@ function QrScanner() {
         setScanResult("UNKNOWN");
       }
     } catch (error) {
-      if (error instanceof SyntaxError) {
-        Alert.alert(
-          "Scan Error",
-          "Scanned data is not in the expected JSON format."
-        );
-      } else {
-        Alert.alert("Sync failed", getDhisErrorMessage(error));
-      }
+      Alert.alert("Scan failed", getScanErrorMessage(error));
       setScanResult("ERROR");
       console.error("Scan/sync error:", error);
     } finally {
@@ -222,8 +203,8 @@ function QrScanner() {
         <View style={styles.loadingOverlay}>
           <View style={styles.loadingCard}>
             <ActivityIndicator size="large" color={BRAND} />
-            <Text style={styles.loadingTitle}>Syncing with DHIS2</Text>
-            <Text style={styles.loadingText}>Updating scan status…</Text>
+            <Text style={styles.loadingTitle}>Verifying QR code</Text>
+            <Text style={styles.loadingText}>Checking status securely…</Text>
           </View>
         </View>
       )}

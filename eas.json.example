@@ -8,11 +8,9 @@
       "developmentClient": true,
       "distribution": "internal",
       "env": {
-        "EXPO_PUBLIC_DHIS_BASE": "https://your-dhis2-server.org/api",
-        "EXPO_PUBLIC_DHIS_PROGRAM_UID": "your-program-id",
-        "EXPO_PUBLIC_DHIS_PROGRAM_STAGE_UID": "your-program-stage-id",
-        "EXPO_PUBLIC_DHIS_ORG_UNIT_UID": "your-org-unit-id",
-        "EXPO_PUBLIC_DHIS_QR_SCAN_STATUS_DE_UID": "your-qr-scan-status-data-element-id"
+        "EXPO_PUBLIC_BACKEND_URL": "https://your-traveller-api.example.org",
+        "EXPO_PUBLIC_DHIS_WEB_BASE": "https://your-dhis2-server.org",
+        "EXPO_PUBLIC_DHIS_ORG_UNIT_UID": "your-org-unit-id"
       }
     },
     "preview": {
@@ -21,21 +19,17 @@
         "buildType": "apk"
       },
       "env": {
-        "EXPO_PUBLIC_DHIS_BASE": "https://your-dhis2-server.org/api",
-        "EXPO_PUBLIC_DHIS_PROGRAM_UID": "your-program-id",
-        "EXPO_PUBLIC_DHIS_PROGRAM_STAGE_UID": "your-program-stage-id",
-        "EXPO_PUBLIC_DHIS_ORG_UNIT_UID": "your-org-unit-id",
-        "EXPO_PUBLIC_DHIS_QR_SCAN_STATUS_DE_UID": "your-qr-scan-status-data-element-id"
+        "EXPO_PUBLIC_BACKEND_URL": "https://your-traveller-api.example.org",
+        "EXPO_PUBLIC_DHIS_WEB_BASE": "https://your-dhis2-server.org",
+        "EXPO_PUBLIC_DHIS_ORG_UNIT_UID": "your-org-unit-id"
       }
     },
     "production": {
       "autoIncrement": true,
       "env": {
-        "EXPO_PUBLIC_DHIS_BASE": "https://your-dhis2-server.org/api",
-        "EXPO_PUBLIC_DHIS_PROGRAM_UID": "your-program-id",
-        "EXPO_PUBLIC_DHIS_PROGRAM_STAGE_UID": "your-program-stage-id",
-        "EXPO_PUBLIC_DHIS_ORG_UNIT_UID": "your-org-unit-id",
-        "EXPO_PUBLIC_DHIS_QR_SCAN_STATUS_DE_UID": "your-qr-scan-status-data-element-id"
+        "EXPO_PUBLIC_BACKEND_URL": "https://your-traveller-api.example.org",
+        "EXPO_PUBLIC_DHIS_WEB_BASE": "https://your-dhis2-server.org",
+        "EXPO_PUBLIC_DHIS_ORG_UNIT_UID": "your-org-unit-id"
       }
     }
   },
