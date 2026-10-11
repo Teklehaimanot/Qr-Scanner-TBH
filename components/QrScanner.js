@@ -98,6 +98,8 @@ function QrScanner() {
         arrivalDate: data.arrivalDate || null,
         teiId: data.teiId,
         eventId: data.eventId,
+        orgUnitId: data.orgUnitId || null,
+        orgUnitName: data.orgUnitName || null,
       });
 
       if (["RED", "YELLOW", "GREEN"].includes(classification)) {
@@ -225,7 +227,7 @@ function ResultScreen({ scanResult, travelerInfo, onScanAgain }) {
 
   const showSynced = scanResult !== "ERROR" && !arrivalTooOld;
   const captureUrl = travelerInfo?.eventId
-    ? getDhisEnrollmentEventUrl(travelerInfo.eventId)
+    ? getDhisEnrollmentEventUrl(travelerInfo.eventId, travelerInfo.orgUnitId || undefined)
     : null;
 
   const openDhisCapture = async () => {
@@ -264,16 +266,24 @@ function ResultScreen({ scanResult, travelerInfo, onScanAgain }) {
           </Text>
 
           <View style={styles.travelerCard}>
-            <Text style={styles.travelerLabel}>Arrival date</Text>
-            <Text style={styles.arrivalDate}>{travelerInfo.arrivalDate}</Text>
             {travelerName ? (
               <>
-                <Text style={[styles.travelerLabel, styles.arrivalLabel]}>
-                  Traveler
-                </Text>
+                <Text style={styles.travelerLabel}>Traveler</Text>
                 <Text style={styles.travelerName}>{travelerName}</Text>
               </>
             ) : null}
+            {travelerInfo?.orgUnitName ? (
+              <>
+                <Text style={[styles.travelerLabel, travelerName ? styles.arrivalLabel : null]}>
+                  Entry point
+                </Text>
+                <Text style={styles.arrivalDate}>{travelerInfo.orgUnitName}</Text>
+              </>
+            ) : null}
+            <Text style={[styles.travelerLabel, styles.arrivalLabel]}>
+              Arrival date
+            </Text>
+            <Text style={styles.arrivalDate}>{travelerInfo.arrivalDate}</Text>
           </View>
         </View>
 
@@ -320,6 +330,14 @@ function ResultScreen({ scanResult, travelerInfo, onScanAgain }) {
           <View style={styles.travelerCard}>
             <Text style={styles.travelerLabel}>Traveler</Text>
             <Text style={styles.travelerName}>{travelerName}</Text>
+            {travelerInfo?.orgUnitName ? (
+              <>
+                <Text style={[styles.travelerLabel, styles.arrivalLabel]}>
+                  Entry point
+                </Text>
+                <Text style={styles.arrivalDate}>{travelerInfo.orgUnitName}</Text>
+              </>
+            ) : null}
             {travelerInfo?.arrivalDate ? (
               <>
                 <Text style={[styles.travelerLabel, styles.arrivalLabel]}>
